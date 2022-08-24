@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from json import loads
+from typing import Optional, Tuple
 
 import requests
 from flask import jsonify
+from flask.wrappers import Response
 from tenacity import retry, stop_after_attempt
 
 WIKI_OPEN_SEARCH_URL = (
@@ -22,7 +24,7 @@ class OpenSearchResult:
     links: list[str]
 
     @retry(stop=stop_after_attempt(3))
-    def is_exact_match(self):
+    def is_exact_match(self) -> Tuple[bool, Optional[str]]:
         """
         Determines if search term would go straight to a wikipedia
         article, rather than a list of results.
@@ -53,12 +55,12 @@ class OpenSearchResult:
 
 
 @retry(stop=stop_after_attempt(3))
-def search_wikipedia(term):
+def search_wikipedia(term: str) -> Response:
     """
     Searches the opensearch endpoint of the wikipedia API,
     and returns the results as json.
     :param term:
-    :return:
+    :return: Response
     """
     try:
         resp = requests.get(f"{WIKI_OPEN_SEARCH_URL}{term}")

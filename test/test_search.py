@@ -36,6 +36,8 @@ def test_search_wikipedia(
     with app.app_context():
         final_json = search_wikipedia(search_term)
     match search_term:
+        # Testing that different terms return only one, or
+        # ten results (exact match or not)
         case "boof":
             assert len(final_json.json["links"]) == 1
         case "ital":
