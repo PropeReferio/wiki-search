@@ -29,3 +29,7 @@ Install dependencies with: `pip install -r requirements.txt`
 
 Run the flask app with this command in the project folder:
 `flask run`
+
+### Testing
+Please test the app running `pytest` at the project root. I didn't go overboard here, as this is
+just an assessment, but I wanted to show that I know my way around pytest, mocks, etc.

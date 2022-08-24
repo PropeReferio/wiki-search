@@ -34,7 +34,9 @@ class OpenSearchResult:
             try:
                 resp = requests.get(f"{WIKI_QUERY_REDIRECTS_URL}{title}")
             except Exception as e:
-                raise Exception(f"There was a problem while checking for redirects: {e}")
+                raise Exception(
+                    f"There was a problem while checking for redirects: {e}"
+                )
             resp_json = loads(resp.text)
             page_id = list(resp_json["query"]["pages"].keys())[0]
             page = resp_json["query"]["pages"][page_id]
@@ -66,6 +68,6 @@ def search_wikipedia(term):
     result = OpenSearchResult(term, resp_json[1], resp_json[3])
     is_match, link = result.is_exact_match()
     if is_match:
-        return jsonify({"links": link})
+        return jsonify({"links": [link]})
     else:
         return jsonify({"links": result.links})
